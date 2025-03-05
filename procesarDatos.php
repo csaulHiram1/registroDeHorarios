@@ -13,6 +13,7 @@ if (
     $hora_entrada = $_POST['hora_entrada'];
     $hora_salida = $_POST['hora_salida'];
     $fecha = $_POST['fecha'];
+    
     subirInformacion($hora_entrada, $hora_salida, $fecha);
 } else {
     $error = 'Faltan valores';
@@ -23,22 +24,16 @@ if ($error != "ok") {
 }
 
 
-
-
 function subirInformacion($hEntrada, $hSalida, $fecha)
 {
     global $pdo;
- 
+
     try {
         $stmt = $pdo->prepare("INSERT INTO entrada_salida (hora_entrada, hora_salida, fecha) VALUES (?, ?, ?)");
 
-        $stmt = $pdo->prepare("CALL InsertarHorario(?, ?, ?)");
         $stmt->execute([$hEntrada, $hSalida, $fecha]);
 
 
-        /* while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo "<br>ID: " . $fila["id"];
-        } */
     } catch (PDOException $e) {
         echo "❌ Error en la consulta: " . $e->getMessage();
     }
